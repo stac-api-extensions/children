@@ -36,7 +36,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../core/openapi.yaml#/components/schemas/landingPage'
+                $ref: 'https://api.stacspec.org/v1.0.0-rc.1/core/openapi.yaml#/components/schemas/landingPage'
               example:
                 stac_version: '1.0.0'
                 type: Catalog
@@ -92,13 +92,13 @@ components:
         - children
       properties:
         links:
-          $ref: '../core/commons.yaml#/components/schemas/links'
+          $ref: 'https://api.stacspec.org/v1.0.0-rc.1/ogcapi-features/openapi.yaml#/components/schemas/links'
         children:
           type: array
           items:
             anyOf:
-              - $ref: '../core/commons.yaml#/components/schemas/catalog'
-              - $ref: '../core/commons.yaml#/components/schemas/collection'
+              - $ref: 'https://api.stacspec.org/v1.0.0-rc.1/ogcapi-features/openapi.yaml#/components/schemas/catalog'
+              - $ref: 'https://api.stacspec.org/v1.0.0-rc.1/ogcapi-features/openapi.yaml#/components/schemas/collection'
   responses:
     Children:
       description: |-
@@ -113,4 +113,4 @@ components:
       content:
         application/json:
           schema:
-            $ref: '../core/commons.yaml#/components/schemas/exception'
+            $ref: 'https://api.stacspec.org/v1.0.0-rc.1/ogcapi-features/openapi.yaml#/components/schemas/exception'
