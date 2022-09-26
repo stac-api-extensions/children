@@ -10,7 +10,8 @@
 - **Conformance Classes:** 
   - <https://api.stacspec.org/v1.0.0-rc.1/children>
 - **[Maturity Classification](https://github.com/radiantearth/stac-api-spec/blob/main/README.md#maturity-classification):** Proposal
-- **Dependencies**: [STAC API - Core](https://github.com/radiantearth/stac-api-spec/blob/main/core)
+- **Dependencies**:
+  - [STAC API - Core](https://github.com/radiantearth/stac-api-spec/blob/main/core)
 
 A STAC API Landing Page (a Catalog) can return information about the Catalog and Collection child objects
 it contains using the link relation `children` to an endpoint `/children`. The `/children` endpoint must
