@@ -7,7 +7,7 @@
   - [Example](#example)
 
 - **OpenAPI specification:** [openapi.yaml](openapi.yaml) ([rendered version](https://api.stacspec.org/v1.0.0-rc.1/children))
-- **Conformance URI:** 
+- **Conformance Classes:** 
   - <https://api.stacspec.org/v1.0.0-rc.1/children>
 - **[Maturity Classification](https://github.com/radiantearth/stac-api-spec/blob/main/README.md#maturity-classification):** Proposal
 - **Dependencies**: [STAC API - Core](https://github.com/radiantearth/stac-api-spec/blob/main/core)
