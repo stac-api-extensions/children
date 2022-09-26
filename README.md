@@ -9,9 +9,9 @@
 - **OpenAPI specification:** [openapi.yaml](openapi.yaml) ([rendered version](https://api.stacspec.org/v1.0.0-rc.1/children))
 - **Conformance Classes:** 
   - <https://api.stacspec.org/v1.0.0-rc.1/children>
-- **[Maturity Classification](https://github.com/radiantearth/stac-api-spec/blob/main/README.md#maturity-classification):** Proposal
+- **[Maturity Classification](https://github.com/radiantearth/stac-api-spec/tree/v1.0.0-rc.1/README.md#maturity-classification):** Proposal
 - **Dependencies**:
-  - [STAC API - Core](https://github.com/radiantearth/stac-api-spec/blob/main/core)
+  - [STAC API - Core](https://github.com/radiantearth/stac-api-spec/tree/v1.0.0-rc.1/core)
 
 A STAC API Landing Page (a Catalog) can return information about the Catalog and Collection child objects
 it contains using the link relation `children` to an endpoint `/children`. The `/children` endpoint must
@@ -28,7 +28,7 @@ but the objects must still be valid Catalogs and Collections.
 ## Link Relations
 
 This conformance class also requires implementation of the link relations in the
-[STAC API - Core](https://github.com/radiantearth/stac-api-spec/blob/main/core) conformance class.
+[STAC API - Core](https://github.com/radiantearth/stac-api-spec/tree/v1.0.0-rc.1/core) conformance class.
 
 The following Link relations must exist in the Landing Page (root).
 
@@ -46,7 +46,7 @@ The following Link relations must exist in the `/children` endpoint response.
 ## Endpoints
 
 This conformance class also requires for the endpoints in the
-[STAC API - Core](https://github.com/radiantearth/stac-api-spec/blob/main/core) conformance class to be implemented.
+[STAC API - Core](https://github.com/radiantearth/stac-api-spec/tree/v1.0.0-rc.1/core) conformance class to be implemented.
 
 | Endpoint    | Returns | Description                                          |
 | ----------- | ------- | ---------------------------------------------------- |
@@ -60,7 +60,7 @@ array of Links in a field `links`.
 
 The `/children` endpoint supports a pagination mechanism that aligns with pagination as described in the 
 OGC API - Common - Part 2: Geospatial Data specification. This is described in detail in
-the [STAC - Features Collection Pagination section](https://github.com/radiantearth/stac-api-spec/blob/main/ogcapi-features/README.md#collection-pagination).
+the [STAC - Features Collection Pagination section](https://github.com/radiantearth/stac-api-spec/tree/v1.0.0-rc.1/ogcapi-features/README.md#collection-pagination).
 To the greatest extent possible, the catalog should be structured such that all children can be
 retrieved from the endpoint in a single call.
 
