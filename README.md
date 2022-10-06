@@ -1,10 +1,4 @@
-# STAC API - Children
-
-- [STAC API - Children](#stac-api---children)
-  - [Link Relations](#link-relations)
-  - [Endpoints](#endpoints)
-  - [Pagination](#pagination)
-  - [Example](#example)
+# STAC API - Children Extension
 
 - **OpenAPI specification:** [openapi.yaml](openapi.yaml) ([rendered version](https://api.stacspec.org/v1.0.0-rc.1/children))
 - **Conformance Classes:** 
@@ -12,6 +6,12 @@
 - **[Maturity Classification](https://github.com/radiantearth/stac-api-spec/tree/v1.0.0-rc.1/README.md#maturity-classification):** Proposal
 - **Dependencies**:
   - [STAC API - Core](https://github.com/radiantearth/stac-api-spec/tree/v1.0.0-rc.1/core)
+
+- [STAC API - Children Extension](#stac-api---children-extension)
+  - [Link Relations](#link-relations)
+  - [Endpoints](#endpoints)
+  - [Pagination](#pagination)
+  - [Example](#example)
 
 A STAC API Landing Page (a Catalog) can return information about the Catalog and Collection child objects
 it contains using the link relation `children` to an endpoint `/children`. The `/children` endpoint must
