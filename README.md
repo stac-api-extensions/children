@@ -1,17 +1,24 @@
-# STAC API - Children Extension
+# STAC API - Children Extension Specification
 
-- **OpenAPI specification:** [openapi.yaml](openapi.yaml) ([rendered version](https://api.stacspec.org/v1.0.0-rc.2/children))
-- **Conformance Classes:** 
-  - <https://api.stacspec.org/v1.0.0-rc.2/children>
-- **[Maturity Classification](https://github.com/radiantearth/stac-api-spec/tree/v1.0.0-rc.2/README.md#maturity-classification):** Proposal
-- **Dependencies**:
-  - [STAC API - Core](https://github.com/radiantearth/stac-api-spec/tree/v1.0.0-rc.2/core)
 
-- [STAC API - Children Extension](#stac-api---children-extension)
+- [STAC API - Children Extension Specification](#stac-api---children-extension-specification)
+  - [Overview](#overview)
   - [Link Relations](#link-relations)
   - [Endpoints](#endpoints)
   - [Pagination](#pagination)
   - [Example](#example)
+
+## Overview
+
+- **Title:** Children
+- **OpenAPI specification:** [openapi.yaml](openapi.yaml) ([rendered version](https://api.stacspec.org/v1.0.0-rc.2/children))
+- **Conformance Classes:**
+  - <https://api.stacspec.org/v1.0.0-rc.2/children>
+- **Scope:** STAC API - Core
+- **[Extension Maturity Classification](https://github.com/radiantearth/stac-api-spec/tree/v1.0.0-rc.2/README.md#maturity-classification):** Proposal
+- **Dependencies**:
+  - [STAC API - Core](https://github.com/radiantearth/stac-api-spec/tree/v1.0.0-rc.2/core)
+- **Owner**: n/a
 
 A STAC API Landing Page (a Catalog) can return information about the Catalog and Collection child objects
 it contains using the link relation `children` to an endpoint `/children`. The `/children` endpoint must
