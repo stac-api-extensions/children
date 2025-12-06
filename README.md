@@ -6,6 +6,7 @@
   - [Link Relations](#link-relations)
   - [Endpoints](#endpoints)
   - [Pagination](#pagination)
+  - [Deep Traversal & Routing](#deep-traversal--routing)
   - [Example](#example)
 
 ## Overview
@@ -70,6 +71,23 @@ OGC API - Common - Part 2: Geospatial Data specification. This is described in d
 the [STAC - Features Collection Pagination section](https://github.com/radiantearth/stac-api-spec/tree/v1.0.0-rc.2/ogcapi-features/README.md#collection-pagination).
 To the greatest extent possible, the catalog should be structured such that all children can be
 retrieved from the endpoint in a single call.
+
+## Deep Traversal & Routing
+
+While the primary endpoint is defined at the API Root (`/children`), this extension pattern MAY be applied to any Catalog or Collection resource within the API to enable deep, recursive traversal (similar to a file system).
+
+To inspect the children of a specific sub-resource, clients should append `/children` to the resource's canonical URI.
+
+**Examples:**
+* **Root Children:** `GET /children`
+* **Sub-Catalog Children:** `GET /catalogs/{id}/children`
+* **Collection Children:** `GET /collections/{id}/children` (for "Collection of Collections" hierarchies)
+
+### Filtering by Type
+Because the `children` array is polymorphic (containing both `Catalog` and `Collection` objects), implementations SHOULD support a `type` query parameter to allow clients to request a specific resource type.
+
+* `GET /children?type=Catalog`
+* `GET /children?type=Collection`
 
 ## Example
 
