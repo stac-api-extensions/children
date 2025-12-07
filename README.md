@@ -16,7 +16,7 @@
 - **Scope:** STAC API - Core
 - **[Extension Maturity Classification](https://github.com/radiantearth/stac-api-spec/tree/v1.0.0/README.md#maturity-classification):** Proposal
 - **Dependencies**:
-  - [STAC API - Core](https://github.com/radiantearth/stac-api-spec/tree/v1.0.0/core)
+  - [STAC API - Core](https://github.com/radiantearth/stac-api-spec/tree/v1.0.0/core) or any later 1.x.x version
 - **Owner**: @m-mohr
 
 A STAC API Landing Page (a Catalog) can return information about the Catalog and Collection child objects
