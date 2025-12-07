@@ -1,0 +1,10 @@
+extends:
+  - recommended
+
+openapi:
+  expandResponses: "200,201,202,203,204"
+  pathInMiddlePanel: true
+
+apis:
+  children:
+    root: ../../openapi.yaml

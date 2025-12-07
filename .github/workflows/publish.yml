@@ -1,0 +1,42 @@
+name: Build and Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inject env variables
+        uses: rlespinasse/github-slug-action@v5
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 'lts/*'
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Validate
+        run: npm test
+        
+      - name: Build OpenAPI
+        run: npm run build
+
+      - name: Copy OpenAPI
+        run: cp openapi.yaml build/openapi.yaml
+        
+      - name: deploy to ${{ env.GITHUB_REF_SLUG }}
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build
+          destination_dir: ${{ env.GITHUB_REF_SLUG }}
+          user_name: 'STAC CI'
+          user_email: ci@stacspec.org

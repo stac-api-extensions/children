@@ -1,0 +1,11 @@
+# This file instructs Redocly's linter to ignore the rules contained for specific parts of your API.
+# See https://redocly.com/docs/cli/ for more information.
+../../openapi.yaml:
+  no-empty-servers:
+    - '#/openapi'
+  operation-4xx-response:
+    - '#/paths/~1/get/responses'
+    - '#/paths/~1children/get/responses'
+  security-defined:
+    - '#/paths/~1/get'
+    - '#/paths/~1children/get'

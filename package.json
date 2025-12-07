@@ -5,18 +5,15 @@
     "repository": "https://github.com/radiantearth/stac-api-spec",
     "license": "Apache-2.0",
     "scripts": {
-        "serve": "redoc-cli serve openapi.yaml --watch --options.expandResponses \"200,201,202,203,204\" --options.pathInMiddlePanel true",
-        "check": "npm run check-markdown && npm run check-openapi",
+        "start": "npm run build && http-server -o build/index.html",
+        "test": "npm run check-markdown && npm run check-openapi",
         "check-markdown": "remark . --frail",
-        "check-openapi": "spectral lint openapi.yaml --ruleset .circleci/.spectral.yml",
-        "build-openapi": ".circleci/build-openapi.sh",
-        "publish-openapi": "node .circleci/publish.js"
+        "check-openapi": "redocly lint --config=.github/config/.redocly.yml",
+        "build": "redocly build-docs children --config=.github/config/.redocly.yml -o=build/index.html"
     },
     "dependencies": {
-        "@redocly/openapi-cli": "^1.0.0-beta.94",
-        "@stoplight/spectral-cli": "^6.4.2",
-        "gh-pages": "^4.0.0",
-        "redoc-cli": "^0.13.16",
+        "@redocly/cli": "^2.0.8",
+        "http-server": "^14.1.1",
         "remark-cli": "^11.0.0",
         "remark-lint": "^9.1.1",
         "remark-gfm": "^3.0.1",
