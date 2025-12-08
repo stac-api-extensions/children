@@ -83,6 +83,10 @@ individual request only consist of a single type.
 
 ### Filtering by Type
 
+This section describes an OPTIONAL conformance class that adds a `type` query parameter for filtering:
+
+- **Conformance Classes:** <https://api.stacspec.org/v1.0.0-rc.2/children#type-filter>
+
 Because the `children` array is polymorphic (containing both `Catalog` and `Collection` objects),
 implementations MAY support a `type` query parameter to allow clients to filter the response to a specific resource type.
 Results SHALL be *filtered*, a conversion between Catalog and Collection is not foreseen.
