@@ -81,6 +81,15 @@ implementations may only return a single type if the children only consist of a 
 It is considered a best practice to structure the hierarchy in a way that the children for each 
 individual request only consist of a single type.
 
+### Filtering by Type
+
+Because the `children` array is polymorphic (containing both `Catalog` and `Collection` objects), implementations MAY support a `type` query parameter to allow clients to filter the response to a specific resource type.
+
+* `GET .../children?type=Catalog` - Returns only child Catalogs.
+* `GET .../children?type=Collection` - Returns only child Collections.
+
+This is recommended for implementations where backend storage (e.g., Elasticsearch indices) or client logic benefits from strict typing.
+
 ## Pagination
 
 The `/children` endpoint supports a pagination mechanism that aligns with
