@@ -19,70 +19,87 @@
   - [STAC API - Core](https://github.com/radiantearth/stac-api-spec/tree/v1.0.0/core) or any later 1.x.x version
 - **Owner**: @m-mohr
 
-A STAC API Landing Page (a Catalog) can return information about the Catalog and Collection child objects
-it contains using the link relation `children` to an endpoint `/children`. The `/children` endpoint must
-return the all the Catalog and Collection objects referenced by these `child` link relations.
+A STAC API, including its Landing Page, can have links with relation type `child` that point to
+Catalogs and Collections. This can be used to create arbitrarily complex hierarchies similar to
+[static STAC catalogs](https://github.com/radiantearth/stac-spec). If APIs implement such behavior,
+it often also implements the [Browsable Extension](https://github.com/stac-api-extensions/browseable).
+The drawback of static catalogs is, that catalogs have to be traversed and a lot of requests for the 
+children have to be executed.
 
-The purpose of this endpoint is to present a single resource from which clients can retrieve
-the immediate children of a Catalog, which may be Catalog or Collection objects.
-While the `child` link relations in a Catalog already allow for describing these
-relationships, this scheme requires a client to retrieve each resource URL to find any information about
+This STAC API extension specifies an endpoint that returns a list of all Catalog and Collection
+that are referenced from a Catalog or Collection with the relation type `child`.
+For this, it contains a link with relation type `children` which points to an endpoint `/children`.
+The `/children` endpoint returns *all* the Catalog and Collection objects referenced by these
+`child` links.
+
+The purpose is to provide a single resource from which clients can retrieve
+the *immediate* children of a Catalog or Collection in an efficient way, similar to STAC API - Collections.
+While the `child` link relation already allows for describing these relationships,
+this scheme requires a client to retrieve each resource URL to find any information about
 the children (e.g., title, description), which can cause significant performance issues in user-facing
 applications. Implementers may choose to to return only a subset of fields for each Catalog or Collection,
 but the objects must still be valid Catalogs and Collections.
 
 ## Link Relations
 
-This conformance class also requires implementation of the link relations in the
-[STAC API - Core](https://github.com/radiantearth/stac-api-spec/tree/v1.0.0/core) conformance class.
+The following Link relations must exist in a Catalog or Collection with link relation type `child`:
 
-The following Link relations must exist in the Landing Page (root).
+| rel        | Media Type         | From                | Description                                         |
+| ---------- | ------------------ | ------------------- | --------------------------------------------------- |
+| `children` | `application/json` | STAC API - Children | List of children of this STAC Catalog or Collection |
 
-| **rel**    | **href**    | **From**            | **Description**                  |
-| ---------- | ----------- | ------------------- | -------------------------------- |
-| `children` | `/children` | STAC API - Children | List of children of this catalog |
+The following Link relations must exist in the `/children` endpoint response:
 
-The following Link relations must exist in the `/children` endpoint response.
-
-| **rel** | **href**    | **From**            | **Description** |
-| ------- | ----------- | ------------------- | --------------- |
-| `root`  | `/`         | STAC Core           | The root URI    |
-| `self`  | `/children` | STAC API - Children | Self reference  |
+| rel      | From                | Description                                                    |
+| -------- | ------------------- | -------------------------------------------------------------- | 
+| `root`   | STAC Core           | The landing page (root) URI                                    |
+| `parent` | STAC Core           | The (parent) URI of the entity containing the `children` link. |
+| `self`   | STAC API - Children | Self reference, i.e. the URI to the `.../children` endpoint.   |
 
 ## Endpoints
 
-This conformance class also requires for the endpoints in the
-[STAC API - Core](https://github.com/radiantearth/stac-api-spec/tree/v1.0.0/core) conformance class to be implemented.
+| Endpoint           | Media Type       | Description                                                         |
+| ------------------ | ---------------- | ------------------------------------------------------------------- |
+| `GET .../children` | application/json | Object with a list of Catalogs and Collections and a list of Links. |
 
-| Endpoint    | Returns | Description                                          |
-| ----------- | ------- | ---------------------------------------------------- |
-| `/children` | JSON    | Object with a list of child Catalogs and Collections |
+The response of `GET .../children` must be a JSON object with at least two properties:
 
-STAC APIs implementing the *STAC API - Children* conformance class must support HTTP GET operation at
-`/children`, with the return JSON document consisting of an array of all child Catalogs and Collections in a field `children` and an 
-array of Links in a field `links`.
+- `children`: An array of all child Catalogs and Collections
+- `links`: An array of Link Objects
+
+The children endpoint can occur at any depth, for example:
+- for a landing page (`GET /`),
+  the children endpoint would be available at `GET /children`
+- for a collection available at `GET /missions/sentinel-2`,
+  the children endpoint would be available at `GET /missions/sentinel-2/children`
+- for a catalog available at `GET /catalogs/{id}`,
+  the children endpoint would be available at `GET /catalogs/{id}/children`
+
+Note that although the endpoint in general allows to return both Catalogs and Collections,
+implementations may only return a single type if the children only consist of a single type.
+
+It is considered a best practice to structure the hierarchy in a way that the children for each 
+individual request only consist of a single type.
 
 ## Pagination
 
-The `/children` endpoint supports a pagination mechanism that aligns with pagination as described in the 
-OGC API - Common - Part 2: Geospatial Data specification. This is described in detail in
-the [STAC - Features Collection Pagination section](https://github.com/radiantearth/stac-api-spec/tree/v1.0.0/ogcapi-features/README.md#collection-pagination).
-To the greatest extent possible, the catalog should be structured such that all children can be
-retrieved from the endpoint in a single call.
+The `/children` endpoint supports a pagination mechanism that aligns with
+the STAC API - Collections and Features Specification, section
+[Collection Pagination](https://github.com/radiantearth/stac-api-spec/blob/v1.0.0/ogcapi-features/README.md#collection-pagination).
+
+To the greatest extent possible, the hierarchy should be structured such that all children can be
+retrieved from the endpoint in a single call without pagination.
 
 ## Example
 
-Below is a minimal example, but captures the essence. Each object in the `children` array 
-must be a valid STAC [Collection](https://github.com/radiantearth/stac-spec/blob/v1.0.0/collection-spec/README.md) or [Catalog](https://github.com/radiantearth/stac-spec/blob/v1.0.0/catalog-spec/README.md),
-and each must have a `self` link that communicates its canonical location. And then 
-the links section must include a `self` link, and it must also link to alternate representations
-(like html) of the collection.
+Below is a minimal example, but captures the essence.
 
-The STAC API Landing Page should look like the following (note the `child` link relations):
+A STAC API Landing Page (`GET /`) could look like the following.
+Please note the `child` and `children` link relations:
 
 ```json
 {
-  "stac_version": "1.0.0",
+  "stac_version": "1.1.0",
   "id": "example-stac",
   "title": "A simple STAC API Example, implementing STAC API - Children",
   "description": "This Catalog aims to demonstrate the a simple landing page",
@@ -96,104 +113,111 @@ The STAC API Landing Page should look like the following (note the `child` link 
     {
       "rel": "self",
       "type": "application/json",
-      "href": "https://stac-api.example.com"
+      "href": "https://stac-api.example"
     },
     {
       "rel": "root",
       "type": "application/json",
-      "href": "https://stac-api.example.com"
+      "href": "https://stac-api.example"
     },
     {
       "rel": "service-desc",
       "type": "application/vnd.oai.openapi+json;version=3.0",
-      "href": "https://stac-api.example.com/api"
+      "href": "https://stac-api.example/api"
     },
     {
       "rel": "service-doc",
       "type": "text/html",
-      "href": "https://stac-api.example.com/api.html"
+      "href": "https://stac-api.example/api.html"
     },
     {
       "rel": "children",
       "type": "application/json",
-      "href": "https://stac-api.example.com/children"
+      "href": "https://stac-api.example/children"
     },
     {
       "rel": "child",
       "type": "application/json",
-      "href": "https://stac-api.example.com/catalogs/cool-data"
+      "title": "Satellite Imagery",
+      "href": "https://stac-api.example/satellites"
     },
     {
       "rel": "child",
       "type": "application/json",
-      "href": "https://stac-api.example.com/catalogs/some-other-data"
+      "title": "Drone Imagery",
+      "href": "https://stac-api.example/drones"
     }
   ]
 }
 ```
 
-The `/children` endpoint response object should look as follows:
+The `GET /children` endpoint response object could look as follows:
 
 ```json
 {
   "children": [
     {
-      "stac_version": "1.0.0",
-      "stac_extensions": [ ],
-      "id": "cool-data",
-      "title": "Cool Data from X Satellite",
-      "description": "A lot of awesome words describing the data",
+      "stac_version": "1.1.0",
+      "id": "satellites",
+      "title": "Satellite Imagery",
+      "description": "This category contains data captured by satellites (currently empty).",
       "type": "Catalog",
-      "license": "CC-BY",
       "links": [
         {
           "rel": "root",
           "type": "application/json",
-          "href": "https://stac-api.example.com"
+          "href": "https://stac-api.example"
         },
         {
           "rel": "parent",
           "type": "application/json",
-          "href": "https://stac-api.example.com"
+          "href": "https://stac-api.example"
         },
         {
           "rel": "self",
           "type": "application/json",
-          "href": "https://stac-api.example.com/catalogs/cool-data"
+          "href": "https://stac-api.example/satellites"
         }
       ]
     },
     {
-      "stac_version": "1.0.0",
-      "stac_extensions": [ ],
-      "id": "some-other-data",
-      "title": "Some Other Data from Y Satellite",
-      "description": "More awesome words describing the data",
-      "type": "Collection",
-      "license": "CC-BY",
-      "extent": {
-        "spatial": {
-          "bbox": [[-135.17, 36.83, -51.24, 62.25]]
-        },
-        "temporal": {
-          "interval": [["2009-01-01T00:00:00Z", null]]
-        }
-      },
+      "stac_version": "1.1.0",
+      "id": "drones",
+      "title": "Drone Imagery",
+      "description": "This category contains data captured by drones and other airbone vehicles (from two flights).",
+      "type": "Catalog",
       "links": [
         {
           "rel": "root",
           "type": "application/json",
-          "href": "https://stac-api.example.com"
+          "href": "https://stac-api.example"
         },
         {
           "rel": "parent",
           "type": "application/json",
-          "href": "https://stac-api.example.com"
+          "href": "https://stac-api.example"
+        },
+        {
+          "rel": "children",
+          "type": "application/json",
+          "href": "https://stac-api.example/drones/children"
+        },
+        {
+          "rel": "child",
+          "type": "application/json",
+          "title": "Flight 1",
+          "href": "https://stac-api.example/drones/flight-1"
+        },
+        {
+          "rel": "child",
+          "type": "application/json",
+          "title": "Flight 2",
+          "href": "https://stac-api.example/drones/flight-2"
         },
         {
           "rel": "self",
           "type": "application/json",
-          "href": "https://stac-api.example.com/collections/some-other-data"
+          "href": "https://stac-api.example/drones"
         }
       ]
     }
@@ -202,12 +226,17 @@ The `/children` endpoint response object should look as follows:
     {
       "rel": "root",
       "type": "application/json",
-      "href": "https://stac-api.example.com"
+      "href": "https://stac-api.example"
+    },
+    {
+      "rel": "parent",
+      "type": "application/json",
+      "href": "https://stac-api.example"
     },
     {
       "rel": "self",
       "type": "application/json",
-      "href": "https://stac-api.example.com/children"
+      "href": "https://stac-api.example/children"
     }
   ]
 }
