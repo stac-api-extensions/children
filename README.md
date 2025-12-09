@@ -166,17 +166,17 @@ The `GET /children` endpoint response object could look as follows:
         {
           "rel": "root",
           "type": "application/json",
-          "href": "https://stac-api.example.com"
+          "href": "https://stac-api.example"
         },
         {
           "rel": "parent",
           "type": "application/json",
-          "href": "https://stac-api.example.com"
+          "href": "https://stac-api.example"
         },
         {
           "rel": "self",
           "type": "application/json",
-          "href": "https://stac-api.example.com/satellites"
+          "href": "https://stac-api.example/satellites"
         }
       ]
     },
@@ -190,12 +190,12 @@ The `GET /children` endpoint response object could look as follows:
         {
           "rel": "root",
           "type": "application/json",
-          "href": "https://stac-api.example.com"
+          "href": "https://stac-api.example"
         },
         {
           "rel": "parent",
           "type": "application/json",
-          "href": "https://stac-api.example.com"
+          "href": "https://stac-api.example"
         },
         {
           "rel": "children",
@@ -217,7 +217,7 @@ The `GET /children` endpoint response object could look as follows:
         {
           "rel": "self",
           "type": "application/json",
-          "href": "https://stac-api.example.com/drones"
+          "href": "https://stac-api.example/drones"
         }
       ]
     }
@@ -226,17 +226,17 @@ The `GET /children` endpoint response object could look as follows:
     {
       "rel": "root",
       "type": "application/json",
-      "href": "https://stac-api.example.com"
+      "href": "https://stac-api.example"
     },
     {
       "rel": "parent",
       "type": "application/json",
-      "href": "https://stac-api.example.com"
+      "href": "https://stac-api.example"
     },
     {
       "rel": "self",
       "type": "application/json",
-      "href": "https://stac-api.example.com/children"
+      "href": "https://stac-api.example/children"
     }
   ]
 }
