@@ -26,7 +26,7 @@ it often also implements the [Browsable Extension](https://github.com/stac-api-e
 The drawback of static catalogs is, that catalogs have to be traversed and a lot of requests for the 
 children have to be executed.
 
-This STAC API extension, specifies an endpoint that returns a list of all Catalog and Collection
+This STAC API extension specifies an endpoint that returns a list of all Catalog and Collection
 that are referenced from a Catalog or Collection with the relation type `child`.
 For this, it contains using the link with relation type `children` to an endpoint `/children`.
 The `/children` endpoint returns *all* the Catalog and Collection objects referenced by these
@@ -52,7 +52,7 @@ The following Link relations must exist in the `/children` endpoint response:
 
 | rel      | From                | Description                                                    |
 | -------- | ------------------- | -------------------------------------------------------------- | 
-| `root`   | STAC Core           | The langding pag (root) URI                                    |
+| `root`   | STAC Core           | The landing page (root) URI                                    |
 | `parent` | STAC Core           | The (parent) URI of the entity containing the `children` link. |
 | `self`   | STAC API - Children | Self reference, i.e. the URI to the `.../children` endpoint.   |
 
@@ -65,7 +65,7 @@ The following Link relations must exist in the `/children` endpoint response:
 The response of `GET .../children` must be a JSON object with at least two properties:
 
 - `children`: An array of all child Catalogs and Collections
-- `link`: An array of Link Objects
+- `links`: An array of Link Objects
 
 The children endpoint can occur at any depth, for example:
 - for a landing page (`GET /`),
@@ -206,7 +206,7 @@ The `GET /children` endpoint response object could look as follows:
           "rel": "child",
           "type": "application/json",
           "title": "Flight 1",
-          "href": "https://stac-api.example/drones/filght-1"
+          "href": "https://stac-api.example/drones/flight-1"
         },
         {
           "rel": "child",
