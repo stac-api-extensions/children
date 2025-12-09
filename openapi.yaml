@@ -36,7 +36,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'https://api.stacspec.org/v1.0.0-rc.2/core/openapi.yaml#/components/schemas/landingPage'
+                $ref: 'https://api.stacspec.org/v1.0.0/core/openapi.yaml#/components/schemas/landingPage'
               example:
                 stac_version: '1.0.0'
                 type: Catalog
@@ -44,7 +44,7 @@ paths:
                 title: Copernicus Sentinel Imagery
                 description: Catalog of Copernicus Sentinel 1 and 2 imagery.
                 conformsTo:
-                  - 'https://api.stacspec.org/v1.0.0-rc.2/core'
+                  - 'https://api.stacspec.org/v1.0.0/core'
                   - 'https://api.stacspec.org/v1.0.0-rc.2/children'
                   - 'http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core'
                   - 'http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/oas30'
@@ -92,13 +92,13 @@ components:
         - children
       properties:
         links:
-          $ref: 'https://api.stacspec.org/v1.0.0-rc.2/ogcapi-features/openapi.yaml#/components/schemas/links'
+          $ref: 'https://api.stacspec.org/v1.0.0/ogcapi-features/openapi.yaml#/components/schemas/links'
         children:
           type: array
           items:
             anyOf:
-              - $ref: 'https://api.stacspec.org/v1.0.0-rc.2/ogcapi-features/openapi.yaml#/components/schemas/catalog'
-              - $ref: 'https://api.stacspec.org/v1.0.0-rc.2/ogcapi-features/openapi.yaml#/components/schemas/collection'
+              - $ref: 'https://api.stacspec.org/v1.0.0/ogcapi-features/openapi.yaml#/components/schemas/catalog'
+              - $ref: 'https://api.stacspec.org/v1.0.0/ogcapi-features/openapi.yaml#/components/schemas/collection'
   responses:
     Children:
       description: |-
@@ -113,4 +113,4 @@ components:
       content:
         application/json:
           schema:
-            $ref: 'https://api.stacspec.org/v1.0.0-rc.2/ogcapi-features/openapi.yaml#/components/schemas/exception'
+            $ref: 'https://api.stacspec.org/v1.0.0/ogcapi-features/openapi.yaml#/components/schemas/exception'
