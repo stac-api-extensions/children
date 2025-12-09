@@ -26,9 +26,9 @@ it often also implements the [Browsable Extension](https://github.com/stac-api-e
 The drawback of static catalogs is, that catalogs have to be traversed and a lot of requests for the 
 children have to be executed.
 
-This STAC API extension, specifies an endpoint that returns a list of all Catalog and Collection
+This STAC API extension specifies an endpoint that returns a list of all Catalog and Collection
 that are referenced from a Catalog or Collection with the relation type `child`.
-For this, it contains using the link with relation type `children` to an endpoint `/children`.
+For this, it contains a link with relation type `children` which points to an endpoint `/children`.
 The `/children` endpoint returns *all* the Catalog and Collection objects referenced by these
 `child` links.
 
@@ -52,7 +52,7 @@ The following Link relations must exist in the `/children` endpoint response:
 
 | rel      | From                | Description                                                    |
 | -------- | ------------------- | -------------------------------------------------------------- | 
-| `root`   | STAC Core           | The langding pag (root) URI                                    |
+| `root`   | STAC Core           | The landing page (root) URI                                    |
 | `parent` | STAC Core           | The (parent) URI of the entity containing the `children` link. |
 | `self`   | STAC API - Children | Self reference, i.e. the URI to the `.../children` endpoint.   |
 
@@ -65,7 +65,7 @@ The following Link relations must exist in the `/children` endpoint response:
 The response of `GET .../children` must be a JSON object with at least two properties:
 
 - `children`: An array of all child Catalogs and Collections
-- `link`: An array of Link Objects
+- `links`: An array of Link Objects
 
 The children endpoint can occur at any depth, for example:
 - for a landing page (`GET /`),
@@ -81,6 +81,15 @@ implementations may only return a single type if the children only consist of a 
 It is considered a best practice to structure the hierarchy in a way that the children for each 
 individual request only consist of a single type.
 
+## Pagination
+
+The `/children` endpoint supports a pagination mechanism that aligns with
+the STAC API - Collections and Features Specification, section
+[Collection Pagination](https://github.com/radiantearth/stac-api-spec/blob/v1.0.0/ogcapi-features/README.md#collection-pagination).
+
+To the greatest extent possible, the hierarchy should be structured such that all children can be
+retrieved from the endpoint in a single call without pagination.
+
 ### Filtering by Type
 
 This section describes an OPTIONAL conformance class that adds a `type` query parameter for filtering:
@@ -95,15 +104,6 @@ Results SHALL be *filtered*, a conversion between Catalog and Collection is not 
 * `GET .../children?type=Collection` - Returns only child Collections.
 
 This is recommended for implementations where backend storage (e.g., Elasticsearch indices) or client logic benefits from strict typing.
-
-## Pagination
-
-The `/children` endpoint supports a pagination mechanism that aligns with
-the STAC API - Collections and Features Specification, section
-[Collection Pagination](https://github.com/radiantearth/stac-api-spec/blob/v1.0.0/ogcapi-features/README.md#collection-pagination).
-
-To the greatest extent possible, the hierarchy should be structured such that all children can be
-retrieved from the endpoint in a single call without pagination.
 
 ## Example
 
@@ -181,17 +181,17 @@ The `GET /children` endpoint response object could look as follows:
         {
           "rel": "root",
           "type": "application/json",
-          "href": "https://stac-api.example.com"
+          "href": "https://stac-api.example"
         },
         {
           "rel": "parent",
           "type": "application/json",
-          "href": "https://stac-api.example.com"
+          "href": "https://stac-api.example"
         },
         {
           "rel": "self",
           "type": "application/json",
-          "href": "https://stac-api.example.com/satellites"
+          "href": "https://stac-api.example/satellites"
         }
       ]
     },
@@ -205,12 +205,29 @@ The `GET /children` endpoint response object could look as follows:
         {
           "rel": "root",
           "type": "application/json",
-          "href": "https://stac-api.example.com"
+          "href": "https://stac-api.example"
         },
         {
           "rel": "parent",
           "type": "application/json",
-          "href": "https://stac-api.example.com"
+          "href": "https://stac-api.example"
+        },
+        {
+          "rel": "children",
+          "type": "application/json",
+          "href": "https://stac-api.example/drones/children"
+        },
+        {
+          "rel": "child",
+          "type": "application/json",
+          "title": "Flight 1",
+          "href": "https://stac-api.example/drones/flight-1"
+        },
+        {
+          "rel": "child",
+          "type": "application/json",
+          "title": "Flight 2",
+          "href": "https://stac-api.example/drones/flight-2"
         },
         {
           "rel": "children",
@@ -232,7 +249,7 @@ The `GET /children` endpoint response object could look as follows:
         {
           "rel": "self",
           "type": "application/json",
-          "href": "https://stac-api.example.com/drones"
+          "href": "https://stac-api.example/drones"
         }
       ]
     }
@@ -241,7 +258,12 @@ The `GET /children` endpoint response object could look as follows:
     {
       "rel": "root",
       "type": "application/json",
-      "href": "https://stac-api.example.com"
+      "href": "https://stac-api.example"
+    },
+    {
+      "rel": "parent",
+      "type": "application/json",
+      "href": "https://stac-api.example"
     },
     {
       "rel": "parent",
@@ -251,7 +273,7 @@ The `GET /children` endpoint response object could look as follows:
     {
       "rel": "self",
       "type": "application/json",
-      "href": "https://stac-api.example.com/children"
+      "href": "https://stac-api.example/children"
     }
   ]
 }
