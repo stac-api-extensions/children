@@ -80,13 +80,13 @@ paths:
         A body of Catalogs and Collections that are immediate children of this root Catalog.
       operationId: getChildren
       parameters:
-        - name: type
-          in: query
-          description: Filters the response to only include Catalogs or Collections.
-          required: false
-          schema:
-            type: string
-            enum: [Catalog, Collection]
+        - name: type
+          in: query
+          description: Filters the response to only include Catalogs or Collections.
+          required: false
+          schema:
+            type: string
+            enum: [Catalog, Collection]
       responses:
         '200':
           $ref: '#/components/responses/Children'
