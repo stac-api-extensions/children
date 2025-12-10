@@ -101,8 +101,8 @@ Because the `children` array is polymorphic (containing both `Catalog` and `Coll
 implementations MAY support a `type` query parameter to allow clients to filter the response to a specific resource type.
 Results SHALL be *filtered*, a conversion between Catalog and Collection is not foreseen.
 
-* `GET .../children?type=Catalog` - Returns only child Catalogs.
-* `GET .../children?type=Collection` - Returns only child Collections.
+- `GET .../children?type=Catalog` - Returns only child Catalogs.
+- `GET .../children?type=Collection` - Returns only child Collections.
 
 This is recommended for implementations where backend storage (e.g., Elasticsearch indices) or client logic benefits from strict typing.
 
