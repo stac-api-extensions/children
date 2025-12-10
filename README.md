@@ -4,6 +4,7 @@
 - [Link Relations](#link-relations)
 - [Endpoints](#endpoints)
 - [Pagination](#pagination)
+- [Filtering by Type](#filtering-by-type)
 - [Example](#example)
 
 ## Overview
@@ -90,7 +91,7 @@ the STAC API - Collections and Features Specification, section
 To the greatest extent possible, the hierarchy should be structured such that all children can be
 retrieved from the endpoint in a single call without pagination.
 
-### Filtering by Type
+## Filtering by Type
 
 This section describes an OPTIONAL conformance class that adds a `type` query parameter for filtering:
 
