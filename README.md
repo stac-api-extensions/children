@@ -4,6 +4,7 @@
 - [Link Relations](#link-relations)
 - [Endpoints](#endpoints)
 - [Pagination](#pagination)
+- [Filtering by Type](#filtering-by-type)
 - [Example](#example)
 
 ## Overview
@@ -26,7 +27,7 @@ it often also implements the [Browsable Extension](https://github.com/stac-api-e
 The drawback of static catalogs is, that catalogs have to be traversed and a lot of requests for the 
 children have to be executed.
 
-This STAC API extension specifies an endpoint that returns a list of all Catalog and Collection
+This STAC API extension specifies an endpoint that returns a list of all Catalogs and Collections
 that are referenced from a Catalog or Collection with the relation type `child`.
 For this, it contains a link with relation type `children` which points to an endpoint `/children`.
 The `/children` endpoint returns *all* the Catalog and Collection objects referenced by these
@@ -37,7 +38,7 @@ the *immediate* children of a Catalog or Collection in an efficient way, similar
 While the `child` link relation already allows for describing these relationships,
 this scheme requires a client to retrieve each resource URL to find any information about
 the children (e.g., title, description), which can cause significant performance issues in user-facing
-applications. Implementers may choose to to return only a subset of fields for each Catalog or Collection,
+applications. Implementers may choose to return only a subset of fields for each Catalog or Collection,
 but the objects must still be valid Catalogs and Collections.
 
 ## Link Relations
@@ -90,6 +91,21 @@ the STAC API - Collections and Features Specification, section
 To the greatest extent possible, the hierarchy should be structured such that all children can be
 retrieved from the endpoint in a single call without pagination.
 
+## Filtering by Type
+
+This section describes an OPTIONAL conformance class that adds a `type` query parameter for filtering:
+
+- **Conformance Class:** <https://api.stacspec.org/v1.0.0-rc.2/children#type-filter>
+
+Because the `children` array is polymorphic (containing both `Catalog` and `Collection` objects),
+implementations MAY support a `type` query parameter to allow clients to filter the response to a specific resource type.
+Results SHALL be *filtered*, a conversion between Catalog and Collection is not foreseen.
+
+- `GET .../children?type=Catalog` - Returns only child Catalogs.
+- `GET .../children?type=Collection` - Returns only child Collections.
+
+This is recommended for implementations where backend storage (e.g., Elasticsearch indices) or client logic benefits from strict typing.
+
 ## Example
 
 Below is a minimal example, but captures the essence.
@@ -102,7 +118,7 @@ Please note the `child` and `children` link relations:
   "stac_version": "1.1.0",
   "id": "example-stac",
   "title": "A simple STAC API Example, implementing STAC API - Children",
-  "description": "This Catalog aims to demonstrate the a simple landing page",
+  "description": "This Catalog aims to demonstrate a simple landing page",
   "type": "Catalog",
   "conformsTo": [
     "https://api.stacspec.org/v1.0.0/core",
