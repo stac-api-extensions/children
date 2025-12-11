@@ -27,7 +27,7 @@ it often also implements the [Browsable Extension](https://github.com/stac-api-e
 The drawback of static catalogs is, that catalogs have to be traversed and a lot of requests for the 
 children have to be executed.
 
-This STAC API extension specifies an endpoint that returns a list of all Catalog and Collection
+This STAC API extension specifies an endpoint that returns a list of all Catalogs and Collections
 that are referenced from a Catalog or Collection with the relation type `child`.
 For this, it contains a link with relation type `children` which points to an endpoint `/children`.
 The `/children` endpoint returns *all* the Catalog and Collection objects referenced by these
@@ -38,7 +38,7 @@ the *immediate* children of a Catalog or Collection in an efficient way, similar
 While the `child` link relation already allows for describing these relationships,
 this scheme requires a client to retrieve each resource URL to find any information about
 the children (e.g., title, description), which can cause significant performance issues in user-facing
-applications. Implementers may choose to to return only a subset of fields for each Catalog or Collection,
+applications. Implementers may choose to return only a subset of fields for each Catalog or Collection,
 but the objects must still be valid Catalogs and Collections.
 
 ## Link Relations
@@ -118,7 +118,7 @@ Please note the `child` and `children` link relations:
   "stac_version": "1.1.0",
   "id": "example-stac",
   "title": "A simple STAC API Example, implementing STAC API - Children",
-  "description": "This Catalog aims to demonstrate the a simple landing page",
+  "description": "This Catalog aims to demonstrate a simple landing page",
   "type": "Catalog",
   "conformsTo": [
     "https://api.stacspec.org/v1.0.0/core",
@@ -231,23 +231,6 @@ The `GET /children` endpoint response object could look as follows:
           "href": "https://stac-api.example/drones/flight-2"
         },
         {
-          "rel": "children",
-          "type": "application/json",
-          "href": "https://stac-api.example/drones/children"
-        },
-        {
-          "rel": "child",
-          "type": "application/json",
-          "title": "Flight 1",
-          "href": "https://stac-api.example/drones/filght-1"
-        },
-        {
-          "rel": "child",
-          "type": "application/json",
-          "title": "Flight 2",
-          "href": "https://stac-api.example/drones/flight-2"
-        },
-        {
           "rel": "self",
           "type": "application/json",
           "href": "https://stac-api.example/drones"
@@ -258,11 +241,6 @@ The `GET /children` endpoint response object could look as follows:
   "links": [
     {
       "rel": "root",
-      "type": "application/json",
-      "href": "https://stac-api.example"
-    },
-    {
-      "rel": "parent",
       "type": "application/json",
       "href": "https://stac-api.example"
     },
