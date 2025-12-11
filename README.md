@@ -269,7 +269,7 @@ The `GET /children` endpoint response object could look as follows:
     {
       "rel": "parent",
       "type": "application/json",
-      "href": "https://stac-api.example.com"
+      "href": "https://stac-api.example"
     },
     {
       "rel": "self",
