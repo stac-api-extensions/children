@@ -28,7 +28,7 @@ The drawback of static catalogs is, that catalogs have to be traversed and a lot
 children have to be executed.
 
 This STAC API extension specifies an endpoint that returns a list of all children Catalogs and Collections
-that are referenced by the relation type `child` within a parent Catalog or Collection.
+that are referenced by the relation type `child` within the corresponding Catalog or Collection that links to the endpoint.
 For this, it contains a link with relation type `children` which points to an endpoint `**/children`
 relative to the location of the parent containing them. The Catalog or Collection can be provided at any level of the STAC catalog hierarchy.
 The `**/children` endpoint returns *all* the Catalog and Collection objects referenced by these `child` links.
