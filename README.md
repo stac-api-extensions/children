@@ -33,13 +33,22 @@ For this, it contains a link with relation type `children` which points to an en
 The `/children` endpoint returns *all* the Catalog and Collection objects referenced by these
 `child` links.
 
+The `/children` endpoint is scoped to the `child` link relations only.
+The Collections listed at the `/collections` endpoint (referenced from the Landing Page via the `data`
+link relation, as defined by STAC API - Collections) are **not** implicitly part of the `/children`
+response. A Collection is only included in `/children` if it is explicitly referenced through a `child`
+link. Conversely, a Collection may be exposed via both endpoints if it is referenced by both a `data`
+(indirectly) and a `child` link.
+
 The purpose is to provide a single resource from which clients can retrieve
 the *immediate* children of a Catalog or Collection in an efficient way, similar to STAC API - Collections.
 While the `child` link relation already allows for describing these relationships,
 this scheme requires a client to retrieve each resource URL to find any information about
 the children (e.g., title, description), which can cause significant performance issues in user-facing
-applications. Implementers may choose to return only a subset of fields for each Catalog or Collection,
-but the objects must still be valid Catalogs and Collections.
+applications. Each Catalog and Collection returned in the `children` array must be a complete and valid
+Catalog or Collection. Unlike the STAC API - Collections endpoint, implementations must not return reduced
+entities (i.e., a subset of the fields); clients can rely on the returned objects being complete and do not
+need to request the full entity from its `self` location.
 
 ## Link Relations
 
@@ -56,6 +65,16 @@ The following Link relations must exist in the `/children` endpoint response:
 | `root`   | STAC Core           | The landing page (root) URI                                    |
 | `parent` | STAC Core           | The (parent) URI of the entity containing the `children` link. |
 | `self`   | STAC API - Children | Self reference, i.e. the URI to the `.../children` endpoint.   |
+
+The following Link relations must exist in each Catalog and Collection listed in the `children` array:
+
+| rel    | From      | Description                                                                                     |
+| ------ | --------- | ----------------------------------------------------------------------------------------------- |
+| `self` | STAC Core | Self reference, i.e. the absolute URI at which the individual Catalog or Collection is located. |
+
+The `self` link is required so that clients can unambiguously determine the location of each entity and
+correlate the entities returned by the `/children` endpoint with the corresponding STAC entities (e.g., the
+resources referenced by the `child` link relations of the parent).
 
 ## Endpoints
 
