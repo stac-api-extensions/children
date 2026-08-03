@@ -30,7 +30,7 @@ children have to be executed.
 This STAC API extension specifies an endpoint that returns a list of all children Catalogs and Collections
 that are referenced by the relation type `child` within a parent Catalog or Collection.
 For this, it contains a link with relation type `children` which points to an endpoint `**/children`
-relative to the location of the parent containing them. The parent Catalog or Collection can at any depth.
+relative to the location of the parent containing them. The Catalog or Collection can be provided at any level of the STAC catalog hierarchy.
 The `**/children` endpoint returns *all* the Catalog and Collection objects referenced by these `child` links.
 
 The purpose is to provide a single resource from which clients can retrieve
