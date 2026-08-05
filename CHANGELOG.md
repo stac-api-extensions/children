@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Updated examples and (STAC) version numbers
 - Clarifications and chore changes
+- Replace `...` by `**` in `README.md` to clarify the 'any depth' capability of the endpoint.
 
 ## [v1.0.0-rc.2] - 2022-11-01
 
