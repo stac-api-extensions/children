@@ -59,9 +59,9 @@ The following Link relations must exist in the `**/children` endpoint response:
 
 ## Endpoints
 
-| Endpoint           | Media Type       | Description                                                         |
-| ------------------ | ---------------- | ------------------------------------------------------------------- |
-| `GET **/children`  | application/json | Object with a list of Catalogs and Collections and a list of Links. |
+| Endpoint          | Media Type       | Description                                                         |
+| ----------------- | ---------------- | ------------------------------------------------------------------- |
+| `GET **/children` | application/json | Object with a list of Catalogs and Collections and a list of Links. |
 
 The response of `GET **/children` must be a JSON object with at least two properties:
 
