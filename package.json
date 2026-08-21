@@ -30,6 +30,18 @@
             "remark-preset-lint-consistent",
             "remark-preset-lint-markdown-style-guide",
             "remark-preset-lint-recommended",
+            [
+                "remark-lint-no-undefined-references",
+                {
+                    "allow": [
+                        "!NOTE",
+                        "!TIP",
+                        "!IMPORTANT",
+                        "!WARNING",
+                        "!CAUTION"
+                    ]
+                }
+            ],
             "lint-no-html",
             [
                 "remark-lint-emphasis-marker",

@@ -33,10 +33,15 @@ For this, it contains a link with relation type `children` which points to an en
 relative to the location of the parent containing them. The Catalog or Collection can be provided at any level of the STAC catalog hierarchy.
 The `**/children` endpoint returns *all* the Catalog and Collection objects referenced by these `child` links.
 
-The `/children` endpoint is scoped to the `child` link relations only.
+> [!NOTE]
+> `**` in the path means that the endpoint can be implemented at any level where `child` links can appear.
+
+The `**/children` endpoints are scoped to the `child` link relations only.
 The Collections listed at the `/collections` endpoint (referenced from the Landing Page via the `data`
-link relation, as defined by STAC API - Collections) are **not** implicitly part of the `/children`
-response. A Collection is only included in `/children` if it is explicitly referenced through a `child`
+link relation, as defined by [STAC API - Collections](https://github.com/radiantearth/stac-api-spec/tree/release/v1.0.0/ogcapi-features#stac-api---collections))
+are **not** implicitly part of the `/children` response
+(note the missing `**`, due to `/collections` being restricted to the root level of an API).
+A Collection is only included in `/children` if it is explicitly referenced through a `child`
 link. Conversely, a Collection may be exposed via both endpoints if it is referenced by both a `data`
 (indirectly) and a `child` link.
 
@@ -46,7 +51,7 @@ While the `child` link relation already allows for describing these relationship
 this scheme requires a client to retrieve each resource URL to find any information about
 the children (e.g., `title`, `description`), which can cause significant performance issues in user-facing
 applications. Each Catalog and Collection returned in the `children` array must be a complete and valid
-Catalog or Collection. Unlike the STAC API - Collections endpoint, implementations must not return reduced
+Catalog or Collection. Unlike the STAC API - Collections endpoint `/collections`, implementations must not return reduced
 entities (i.e., a subset of the fields); clients can rely on the returned objects being complete and do not
 need to request the full entity from its `self` location.
 
