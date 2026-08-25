@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - Each Catalog and Collection listed in the `children` array must include a `self` link ([#10](https://github.com/stac-api-extensions/children/issues/10))
-- Catalogs and Collections in the `children` array must be complete and valid; reduced entities are not allowed ([#11](https://github.com/stac-api-extensions/children/issues/11))
+- Catalogs and Collections in the `children` array must be valid; reduced entities (a subset of the fields) are allowed, consistent with the `/collections` endpoint ([#11](https://github.com/stac-api-extensions/children/issues/11))
 - Clarified that the Collections listed at the `/collections` endpoint are not implicitly part of the `/children` response; only entities referenced via `child` links are included ([#12](https://github.com/stac-api-extensions/children/issues/12))
 - Updated examples and (STAC) version numbers
 - Clarifications and chore changes

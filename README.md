@@ -50,10 +50,11 @@ the *immediate* children of a Catalog or Collection in an efficient way, similar
 While the `child` link relation already allows for describing these relationships,
 this scheme requires a client to retrieve each resource URL to find any information about
 the children (e.g., `title`, `description`), which can cause significant performance issues in user-facing
-applications. Each Catalog and Collection returned in the `children` array must be a complete and valid
-Catalog or Collection. Unlike the STAC API - Collections endpoint `/collections`, implementations must not return reduced
-entities (i.e., a subset of the fields); clients can rely on the returned objects being complete and do not
-need to request the full entity from its `self` location.
+applications. As with the STAC API - Collections endpoint `/collections`, implementations may return reduced
+entities (i.e., a subset of the fields); it is left to the implementation to decide which optional fields to include.
+Even when reduced, each entity must still be a valid Catalog or Collection: all required fields must be present and the
+`self` link (see [Link Relations](#link-relations)) must be included. Clients that require the complete entity can always
+retrieve it from the `self` location of the corresponding Catalog or Collection.
 
 ## Link Relations
 
@@ -80,6 +81,9 @@ The following Link relations must exist in each Catalog and Collection listed in
 The `self` link is required so that clients can unambiguously determine the location of each entity and
 correlate the entities returned by the `/children` endpoint with the corresponding STAC entities (e.g., the
 resources referenced by the `child` link relations of the parent).
+It is also the canonical location from which the complete entity can be retrieved, which is essential when
+implementations return reduced entities (i.e., a subset of the fields) in the `children` array: without the
+`self` link, clients would have no reliable way to obtain the omitted fields.
 
 ## Endpoints
 
