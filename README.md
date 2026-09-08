@@ -33,13 +33,28 @@ For this, it contains a link with relation type `children` which points to an en
 relative to the location of the parent containing them. The Catalog or Collection can be provided at any level of the STAC catalog hierarchy.
 The `**/children` endpoint returns *all* the Catalog and Collection objects referenced by these `child` links.
 
+> [!NOTE]
+> `**` in the path means that the endpoint can be implemented at any level where `child` links can appear.
+
+The `**/children` endpoints are scoped to the `child` link relations only.
+The Collections listed at the `/collections` endpoint (referenced from the Landing Page via the `data`
+link relation, as defined by [STAC API - Collections](https://github.com/radiantearth/stac-api-spec/tree/release/v1.0.0/ogcapi-features#stac-api---collections))
+are **not** implicitly part of the `/children` response
+(note the missing `**`, due to `/collections` being restricted to the root level of an API).
+A Collection is only included in `/children` if it is explicitly referenced through a `child`
+link. Conversely, a Collection may be exposed via both endpoints if it is referenced by both a `data`
+(indirectly) and a `child` link.
+
 The purpose is to provide a single resource from which clients can retrieve
 the *immediate* children of a Catalog or Collection in an efficient way, similar to STAC API - Collections.
 While the `child` link relation already allows for describing these relationships,
 this scheme requires a client to retrieve each resource URL to find any information about
 the children (e.g., `title`, `description`), which can cause significant performance issues in user-facing
-applications. Implementers may choose to return only a subset of fields for each Catalog or Collection,
-but the objects must still be valid Catalogs and Collections.
+applications. As with the STAC API - Collections endpoint `/collections`, implementations may return reduced
+entities (i.e., a subset of the fields); it is left to the implementation to decide which optional fields to include.
+Even when reduced, each entity must still be a valid Catalog or Collection: all required fields must be present and the
+`self` link (see [Link Relations](#link-relations)) must be included. Clients that require the complete entity can always
+retrieve it from the `self` location of the corresponding Catalog or Collection.
 
 ## Link Relations
 
@@ -56,6 +71,19 @@ The following Link relations must exist in the `**/children` endpoint response:
 | `root`   | STAC Core           | The landing page (root) URI                                    |
 | `parent` | STAC Core           | The (parent) URI of the entity containing the `children` link. |
 | `self`   | STAC API - Children | Self reference, i.e. the URI to the `**/children` endpoint.    |
+
+The following Link relations must exist in each Catalog and Collection listed in the `children` array:
+
+| rel    | From      | Description                                                                                     |
+| ------ | --------- | ----------------------------------------------------------------------------------------------- |
+| `self` | STAC Core | Self reference, i.e. the absolute URI at which the individual Catalog or Collection is located. |
+
+The `self` link is required so that clients can unambiguously determine the location of each entity and
+correlate the entities returned by the `/children` endpoint with the corresponding STAC entities (e.g., the
+resources referenced by the `child` link relations of the parent).
+It is also the canonical location from which the complete entity can be retrieved, which is essential when
+implementations return reduced entities (i.e., a subset of the fields) in the `children` array: without the
+`self` link, clients would have no reliable way to obtain the omitted fields.
 
 ## Endpoints
 
