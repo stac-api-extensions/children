@@ -11,9 +11,9 @@
 
 - **Title:** Children
 - **OpenAPI specification:** [openapi.yaml](openapi.yaml)
-  ([rendered version](https://stac-api-extensions.github.io/children/v1.0.0-rc.2))
+  ([rendered version](https://stac-api-extensions.github.io/children/v1.0.0))
 - **Conformance Classes:**
-  - <https://api.stacspec.org/v1.0.0-rc.2/children>
+  - <https://api.stacspec.org/v1.0.0/children>
 - **Scope:** STAC API - Core
 - **[Extension Maturity Classification](https://github.com/radiantearth/stac-api-spec/tree/v1.0.0/README.md#maturity-classification):** Proposal
 - **Dependencies**:
@@ -124,7 +124,7 @@ retrieved from the endpoint in a single call without pagination.
 
 This section describes an OPTIONAL conformance class that adds a `type` query parameter for filtering:
 
-- **Conformance Class:** <https://api.stacspec.org/v1.0.0-rc.2/children#type-filter>
+- **Conformance Class:** <https://api.stacspec.org/v1.0.0/children#type-filter>
 
 Because the `children` array is polymorphic (containing both `Catalog` and `Collection` objects),
 implementations MAY support a `type` query parameter to allow clients to filter the response to a specific resource type.
@@ -151,7 +151,7 @@ Please note the `child` and `children` link relations:
   "type": "Catalog",
   "conformsTo": [
     "https://api.stacspec.org/v1.0.0/core",
-    "https://api.stacspec.org/v1.0.0-rc.2/children",
+    "https://api.stacspec.org/v1.0.0/children",
     "https://api.stacspec.org/v1.0.0-rc.3/browseable"
   ],
   "links": [

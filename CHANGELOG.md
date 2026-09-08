@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.0.0] - 2026-09-08
+
 - Each Catalog and Collection listed in the `children` array must include a `self` link ([#10](https://github.com/stac-api-extensions/children/issues/10))
 - Catalogs and Collections in the `children` array must be valid; reduced entities (a subset of the fields) are allowed, consistent with the `/collections` endpoint ([#11](https://github.com/stac-api-extensions/children/issues/11))
 - Clarified that the Collections listed at the `/collections` endpoint are not implicitly part of the `/children` response; only entities referenced via `child` links are included ([#12](https://github.com/stac-api-extensions/children/issues/12))
@@ -33,7 +35,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Older versions
 
-[Unreleased]: <https://github.com/stac-api-extensions/children/compare/v1.0.0-rc.2..main>
+[Unreleased]: <https://github.com/stac-api-extensions/children/compare/v1.0.0..main>
+[v1.0.0]: <https://github.com/stac-api-extensions/children/compare/v1.0.0-rc.2..v1.0.0>
 [v1.0.0-rc.2]: <https://github.com/stac-api-extensions/children/tree/v1.0.0-rc.2>
 [v1.0.0-rc.1]: <https://github.com/stac-api-extensions/children/tree/v1.0.0-rc.1>
 [v1.0.0-beta.5]: <https://github.com/radiantearth/stac-api-spec/tree/v1.0.0-beta.2>
